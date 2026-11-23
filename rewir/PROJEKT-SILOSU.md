@@ -90,3 +90,22 @@ Wydajność zmierzyłem w Chromium z programowym WebGL. Liczby FPS z tego testu 
 - **Wideo i zrzuty 9:16 z przekroju silosu („mój silos ma −175 m”)**: to tani materiał na TikTok. Przelot kamery od Kopuły do dna ma naturalny „hak” w postaci głębokości. Koszt to tylko praca. Skuteczności nie da się przewidzieć bez testu na kilku filmach.
 - **Kosmetyka silosu** (kolory stref, lampy, szablony numerów, motywy Okna): to monetyzacja bez wpływu na balans. Jej sens zależy od liczby aktywnych graczy, której nie znam.
 - **Ryzyko prawne**: w reklamach nie używaj nazwy serialu, jego logo ani kadrów. Inspiracja motywem jest w porządku, sugerowanie powiązania z marką już nie.
+
+---
+
+# Blokada ekranu na jazdę (v199)
+
+- Przycisk **🔒 Zablokuj ekran** pojawia się podczas każdej jazdy: nagrywanie, zjazd na czas, runda, mistrzostwa. Pojawia się też wtedy, gdy GPS wykryje ruch powyżej 7 km/h bez nagrywania.
+- Obok niego jest przełącznik, co ma być widać na zablokowanym ekranie (wybór jest zapamiętywany):
+  - prędkość,
+  - średnia prędkość,
+  - czas i prędkość,
+  - całkiem czarny ekran.
+- Zablokowany ekran nie reaguje na nic. Odblokowuje go tylko podwójne dotknięcie:
+  - dwa krótkie dotknięcia (każde krótsze niż 0,35 s),
+  - w odstępie do 0,5 s,
+  - w tym samym miejscu (do 90 px).
+- Nie odblokowują go: przytrzymanie, przesuwanie palca, dwa palce, dotknięcia w różnych miejscach ani dotknięcia w pierwszych 0,7 s po zablokowaniu.
+- Ekran zostaje włączony (Wake Lock), więc GPS działa. Gdy przez ponad 10 s nie ma sygnału GPS, ekran pokazuje to otwarcie.
+- Po zakończeniu przejazdu (meta, Stop) blokada zdejmuje się sama, tak jak dawniej. Blokada włączona bez nagrywania zostaje, dopóki jej nie odblokujesz.
+- Zastępuje dwa stare przyciski („🌑 Wygaś ekran” i „🔒 Tryb kieszeni”), które leżały na sobie w tym samym miejscu. Automatyka „Czarny ekran na czas zjazdu” używa nowej blokady.
