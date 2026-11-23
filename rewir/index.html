@@ -26,7 +26,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://rewir-gra.netlify.app/og.jpg">
-<script>/* v200: słownik EN tylko dla wersji angielskiej (i18n-en.js); kopia w pamięci telefonu na wypadek braku internetu */(function(){var L='';try{var q=(location.search.match(/[?&]lang=(pl|en)(?:&|$)/)||[])[1];L=q||localStorage.getItem('linia.lang')||'';}catch(e){}if(L!=='pl'&&L!=='en')L=/^pl/i.test(String(navigator.language||''))?'pl':'en';if(L==='en')document.write('<script src="i18n-en.js?v=200"><\/script><script>(function(){var K="linia.i18nEN.200";try{if(window.__I18N_EN){var j=JSON.stringify(window.__I18N_EN);if(localStorage.getItem(K)!==j){for(var i=localStorage.length-1;i>=0;i--){var k=localStorage.key(i);if(k&&k.indexOf("linia.i18nEN.")===0)localStorage.removeItem(k);}localStorage.setItem(K,j);}}else window.__I18N_EN=JSON.parse(localStorage.getItem(K)||"null");}catch(e){}})();<\/script>');})();</script>
+<script>/* v200: słownik EN tylko dla wersji angielskiej (i18n-en.js); kopia w pamięci telefonu na wypadek braku internetu */(function(){var L='';try{var q=(location.search.match(/[?&]lang=(pl|en)(?:&|$)/)||[])[1];L=q||localStorage.getItem('linia.lang')||'';}catch(e){}if(L!=='pl'&&L!=='en')L=/^pl/i.test(String(navigator.language||''))?'pl':'en';if(L==='en')document.write('<script data-mod="1" src="i18n-en.js?v=200"><\/script><script>(function(){var K="linia.i18nEN.200";try{if(window.__I18N_EN){var j=JSON.stringify(window.__I18N_EN);if(localStorage.getItem(K)!==j){for(var i=localStorage.length-1;i>=0;i--){var k=localStorage.key(i);if(k&&k.indexOf("linia.i18nEN.")===0)localStorage.removeItem(k);}localStorage.setItem(K,j);}}else window.__I18N_EN=JSON.parse(localStorage.getItem(K)||"null");}catch(e){}})();<\/script>');})();</script>
 <script>
 /* ===== v191: język gry PL / EN =====
    Wybór: ?lang=pl|en → zapamiętany wybór → język telefonu (pl* = polski, reszta = angielski).
@@ -216,7 +216,7 @@ try{var st=document.createElement('style');st.textContent='.rdT::after{content:"
     d.lastChild.textContent+=t+'\n';
     if(soft&&!d.dataset.hard){clearTimeout(d._t);d._t=setTimeout(function(){if(!d.dataset.hard)d.remove();seen={};},12000);}
   }
-  window.addEventListener('error',function(e){var t=e.target;if(t&&(t.tagName==='SCRIPT'||t.tagName==='LINK')){var u=t.src||t.href||'';try{console.warn('Nie wczytano: '+u);}catch(_){}if(/fonts\.(googleapis|gstatic)/.test(u))return;var w=/leaflet/.test(u)?'mapy':/three/.test(u)?'grafiki 3D':'części aplikacji';bar('📶 Brak połączenia: nie wczytano '+w+'. Gra działa dalej. Odśwież stronę, gdy wróci internet.',1);return;}if(t&&t!==window)return;if(!e.message)return;bar('Błąd: '+e.message+(e.lineno?' (wiersz '+e.lineno+')':''));},true);
+  window.addEventListener('error',function(e){var t=e.target;if(t&&(t.tagName==='SCRIPT'||t.tagName==='LINK')){var u=t.src||t.href||'';if(t.getAttribute&&t.getAttribute('data-mod'))return;try{console.warn('Nie wczytano: '+u);}catch(_){}if(/fonts\.(googleapis|gstatic)/.test(u))return;var w=/leaflet/.test(u)?'mapy':/three/.test(u)?'grafiki 3D':'części aplikacji';bar('📶 Brak połączenia: nie wczytano '+w+'. Gra działa dalej. Odśwież stronę, gdy wróci internet.',1);return;}if(t&&t!==window)return;if(!e.message)return;bar('Błąd: '+e.message+(e.lineno?' (wiersz '+e.lineno+')':''));},true);
   window.addEventListener('unhandledrejection',function(e){var m=(e.reason&&e.reason.message)||e.reason;if(!m||m==='Failed to fetch'||m==='Load failed'||m==='dem')return;bar('Błąd: '+m);});
 })();
 </script>
@@ -14976,7 +14976,7 @@ function __modLoad(name){
   const K='linia.mod.'+name+'.',fromCache=()=>{try{return localStorage.getItem(K+__MV);}catch(e){return null;}};
   return __MODS[name]=new Promise((res,rej)=>{
     const run=src=>{try{__modRun(name,src);res();}catch(e){console.error(e);rej(e);}};
-    const s=document.createElement('script');s.src='m/'+name+'.js?v='+__MV;s.async=true;
+    const s=document.createElement('script');s.dataset.mod='1';s.src='m/'+name+'.js?v='+__MV;s.async=true;
     s.onload=()=>{s.remove();const src=window.__modSrc&&window.__modSrc[name];if(src==null){const c=fromCache();if(c!=null)return run(c);delete __MODS[name];return rej(new Error('moduł '+name));}
       delete window.__modSrc[name];try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.indexOf(K)===0&&k!==K+__MV)localStorage.removeItem(k);}localStorage.setItem(K+__MV,src);}catch(e){}run(src);};
     s.onerror=()=>{s.remove();const c=fromCache();if(c!=null)return run(c);delete __MODS[name];rej(new Error('offline: '+name));};
@@ -14984,7 +14984,9 @@ function __modLoad(name){
 }
 window.__modLoad=__modLoad;
 /* silos 3D: pobiera się przy pierwszym otwarciu zakładki Silos (do tego czasu działa przekrój 2D) */
-{const _st=setTab;setTab=function(t){const r=_st.apply(this,arguments);if(t==='silo')__modLoad('silo3d').catch(()=>{});return r;};if(tab==='silo')__modLoad('silo3d').catch(()=>{});}
+function __siloMiss(){const p=document.getElementById('tab-silo'),cv=document.getElementById('siloCv');if(!p||!cv||document.getElementById('s3Miss'))return;const d=document.createElement('div');d.id='s3Miss';d.className='disc';d.style.cssText='margin:6px 0;padding:8px 10px;border-radius:10px;border:1px solid var(--line)';
+  d.textContent='Widok 3D silosu jest w osobnym pliku (m/silo3d.js), którego tu nie ma. Pokazuję przekrój. Otwórz grę z serwera (np. Netlify) albo użyj wersji w jednym pliku.';cv.parentNode.insertBefore(d,cv);}
+{const go=()=>__modLoad('silo3d').catch(__siloMiss);const _st=setTab;setTab=function(t){const r=_st.apply(this,arguments);if(t==='silo')go();return r;};if(tab==='silo')go();}
 /* ===== v176: ZOMBIE zamiast robaków — nowy wygląd przeciwników ===== */
 (function(){
 /* 10 rodzajów zombie (indeks jak dawne rodzaje robaków) */

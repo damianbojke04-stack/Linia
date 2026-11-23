@@ -1,21 +1,20 @@
-# Jak wgrać grę na Netlify (od wersji v200)
+# Rewir: dwie wersje tej samej gry (od v200)
 
-Gra nie jest już jednym plikiem. Na serwer trafia **cała zawartość folderu `rewir/`**:
+## 1. Jeden plik: `zrodla/rewir.html` (ZRÓDŁO, tu robimy zmiany)
+- Działa wszędzie: otwarty na telefonie w podglądzie pliku, z dysku i na Netlify (jako `index.html`).
+- three.js (grafika 3D) pobiera się dopiero po otwarciu zakładki Silos, a nie przy każdym starcie.
+- Rozmiar: 2,4 MB pliku, ok. 740 KB do pobrania po kompresji na serwerze.
 
-| Plik / folder | Co to | Kiedy telefon go pobiera |
-|---|---|---|
-| `index.html` | rdzeń gry (mapa, jazda, baza, blokada ekranu…) | przy starcie |
-| `i18n-en.js` | słownik angielski | tylko gdy gra jest po angielsku |
-| `m/silo3d.js` | silos 3D | przy pierwszym otwarciu zakładki Silos |
-| `img/*.webp` | obrazki budynków (poziomy I–III) | tylko te budynki, które są rysowane |
+## 2. Wersja dla serwera: folder `rewir/` (generowana automatycznie)
+- Pobiera tylko potrzebne części. Start po polsku to ok. 460 KB zamiast ok. 860 KB.
+  - `index.html`: rdzeń gry.
+  - `i18n-en.js`: słownik angielski, tylko gdy gra jest po angielsku.
+  - `img/*.webp`: obrazki budynków, pobierane przy rysowaniu.
+  - `m/silo3d.js`: silos 3D, przy pierwszym otwarciu zakładki.
+- Działa TYLKO z serwera (Netlify), bo potrzebuje sąsiednich plików. Otwarty sam w podglądzie na telefonie
+  pokaże przekrój silosu i komunikat zamiast widoku 3D.
+- Na Netlify wgraj całą zawartość `rewir/` obok obecnych plików (`sw.js`, manifest, ikony, `fox/` zostają bez zmian).
+- Po każdej zmianie w `zrodla/rewir.html` zbuduj na nowo:  `python3 narzedzia/podziel.py`
 
-Pliki, które już masz na Netlify (`sw.js`, `manifest.webmanifest`, ikony, `fox/`, `og.jpg`), zostają bez zmian.
-
-Moduły i słownik, które telefon raz pobrał, zostają w jego pamięci, więc działają bez internetu.
-Gdy `sw.js` dostanie listę nowych plików, będą dostępne offline także zanim gracz pierwszy raz ich użyje.
-
-## Zmiany w kodzie
-- Rdzeń: `rewir/index.html`.
-- Silos 3D: edytuj `zrodla/silo3d.js`, potem uruchom `python3 narzedzia/zbuduj-moduly.py`.
-- Teksty angielskie: `rewir/i18n-en.js`.
-- Wersja jednoplikowa sprzed podziału: `archiwum/rewir-v199-jeden-plik.html`.
+Raz pobrane moduły i słownik zostają w pamięci telefonu, więc działają bez internetu.
+Archiwum wersji sprzed zmian: `archiwum/rewir-v199-jeden-plik.html`.
